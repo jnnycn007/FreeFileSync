@@ -1,4 +1,4 @@
-﻿// *****************************************************************************
+// *****************************************************************************
 // * This file is part of the FreeFileSync project. It is distributed under    *
 // * GNU General Public License: https://www.gnu.org/licenses/gpl-3.0          *
 // * Copyright (C) Zenju (zenju AT freefilesync DOT org) - All Rights Reserved *
@@ -7,6 +7,7 @@
 #include "application.h"
 #include <memory>
 #include <zen/file_access.h>
+#include <zen/json.h>
 #include <zen/shutdown.h>
 #include <zen/process_exec.h>
 #include <zen/resolve_path.h>
@@ -89,7 +90,7 @@ void showSyntaxHelp()
 
 void notifyAppError(const std::wstring& msg)
 {
-        std::cerr << utfTo<std::string>(_("Error") + L": " + msg) + '\n';
+        std::cerr << utfTo<std::string>(_("Error") + L": " + msg) << '\n';
     //alternative0: std::wcerr: cannot display non-ASCII at all, so why does it exist???
     //alternative1: wxSafeShowMessage => NO console output on Debian x86, WTF!
     //alternative2: wxMessageBox() => works, but we probably shouldn't block during command line usage
@@ -692,6 +693,35 @@ void Application::runBatchMode(const FfsBatchConfig& batchCfg, const Zstring& cf
         raiseExitCode(exitCode_, FfsExitCode::error);
     else if (logStats.warnings > 0)
         raiseExitCode(exitCode_, FfsExitCode::warning);
+
+    //---------------------------------------------------------------------------
+    //stream sync stats to STDOUT as JSON
+    JsonValue syncStats(JsonValue::Type::object);
+    switch (r.summary.result)
+    {
+        case TaskResult::success:   syncStats.objectVal.set("syncResult", "success"); break;
+        case TaskResult::warning:   syncStats.objectVal.set("syncResult", "warning"); break;
+        case TaskResult::error:     syncStats.objectVal.set("syncResult", "error"); break;
+        case TaskResult::cancelled: syncStats.objectVal.set("syncResult", "cancelled"); break;
+    }
+
+    std::string startTimeStr = utfTo<std::string>(formatTime(Zstr("%Y-%m-%dT%H:%M:%S%z"), getLocalTime(std::chrono::system_clock::to_time_t(r.summary.startTime))));
+    syncStats.objectVal.set("startTime", std::move(startTimeStr.insert(startTimeStr.size() - 2, ":"))); //ISO 8601 date/time with offset e.g. 2001-08-23T14:55:02+02:00
+     
+    syncStats.objectVal.set("totalTimeSec", std::chrono::duration_cast<std::chrono::seconds>(r.summary.totalTime).count());
+    
+    syncStats.objectVal.set("errors",   logStats.errors);
+    syncStats.objectVal.set("warnings", logStats.warnings);
+
+    syncStats.objectVal.set("totalItems", r.summary.statsTotal.items);
+    syncStats.objectVal.set("totalBytes", r.summary.statsTotal.bytes);
+
+    syncStats.objectVal.set("processedItems", r.summary.statsProcessed.items);
+    syncStats.objectVal.set("processedBytes", r.summary.statsProcessed.bytes);
+
+    syncStats.objectVal.set("logFile", utfTo<std::string>(AFS::getDisplayPath(logFilePath)));
+
+    std::cout << serializeJson(syncStats);
 
     //---------------------------------------------------------------------------
     try //save global settings to XML: e.g. ignored warnings, last sync stats

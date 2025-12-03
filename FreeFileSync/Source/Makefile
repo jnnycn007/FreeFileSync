@@ -20,9 +20,9 @@ LDFLAGS  += `pkg-config --libs libidn2`
 CXXFLAGS += `pkg-config --cflags libssh2`
 LDFLAGS  += `pkg-config --libs libssh2`
 
-CXXFLAGS += `pkg-config --cflags gtk+-2.0`
+CXXFLAGS += `pkg-config --cflags gtk+-3.0`
 #treat as system headers so that warnings are hidden:
-CXXFLAGS += -isystem/usr/include/gtk-2.0
+CXXFLAGS += -isystem/usr/include/gtk-3.0
 
 #support for SELinux (optional)
 SELINUX_EXISTING=$(shell pkg-config --exists libselinux && echo YES)

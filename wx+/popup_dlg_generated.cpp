@@ -86,8 +86,6 @@ PopupDialogGenerated::PopupDialogGenerated( wxWindow* parent, wxWindowID id, con
     this->Layout();
     bSizer24->Fit( this );
 
-    this->Centre( wxBOTH );
-
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( PopupDialogGenerated::onClose ) );
     m_checkBoxCustom->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PopupDialogGenerated::onCheckBoxClick ), NULL, this );

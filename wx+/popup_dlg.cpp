@@ -80,7 +80,7 @@ void setBestInitialSize(wxRichTextCtrl& ctrl, const wxString& text, wxSize maxSi
 
     ctrl.SetMinSize(bestSize); //alas, SetMinClientSize() is just not working!
 #if 0
-    std::cout << "rowCount       " << rowCount << "\n" <<
+    std::cerr << "rowCount       " << rowCount << "\n" <<
                  "maxLineWidth   " << maxLineWidth << "\n" <<
                  "rowHeight      " << rowHeight << "\n" <<
                  "haveLineWrap   " << haveLineWrap << "\n" <<
@@ -293,7 +293,7 @@ public:
         Show(); //GTK3 size calculation requires visible window: https://github.com/wxWidgets/wxWidgets/issues/16088
         //Hide(); -> avoids old position flash before Center() on GNOME but causes hang on KDE? https://freefilesync.org/forum/viewtopic.php?t=10103#p42404
 #endif
-        Center(); //needs to be re-applied after a dialog size change!
+        Center(); //apply *after* dialog size change!
 
 
         Raise(); //[!] popup may be triggered by ffs_batch job running in the background!

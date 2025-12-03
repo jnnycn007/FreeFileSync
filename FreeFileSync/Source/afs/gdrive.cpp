@@ -1328,9 +1328,9 @@ std::string /*folderId*/ gdriveCreateFolderPlain(const Zstring& folderName, cons
         {"fields", "id"},
     });
     JsonValue postParams(JsonValue::Type::object);
-    postParams.objectVal.emplace("mimeType", gdriveFolderMimeType);
-    postParams.objectVal.emplace("name", utfTo<std::string>(folderName));
-    postParams.objectVal.emplace("parents", std::vector<JsonValue> {JsonValue(parentId)});
+    postParams.objectVal.set("mimeType", gdriveFolderMimeType);
+    postParams.objectVal.set("name", utfTo<std::string>(folderName));
+    postParams.objectVal.set("parents", std::vector<JsonValue> {JsonValue(parentId)});
     const std::string& postBuf = serializeJson(postParams, "" /*lineBreak*/, "" /*indent*/);
 
     std::string response;
@@ -1361,13 +1361,13 @@ std::string /*shortcutId*/ gdriveCreateShortcutPlain(const Zstring& shortcutName
         {"fields", "id"},
     });
     JsonValue shortcutDetails(JsonValue::Type::object);
-    shortcutDetails.objectVal.emplace("targetId", targetId);
+    shortcutDetails.objectVal.set("targetId", targetId);
 
     JsonValue postParams(JsonValue::Type::object);
-    postParams.objectVal.emplace("mimeType", gdriveShortcutMimeType);
-    postParams.objectVal.emplace("name", utfTo<std::string>(shortcutName));
-    postParams.objectVal.emplace("parents", std::vector<JsonValue> {JsonValue(parentId)});
-    postParams.objectVal.emplace("shortcutDetails", std::move(shortcutDetails));
+    postParams.objectVal.set("mimeType", gdriveShortcutMimeType);
+    postParams.objectVal.set("name", utfTo<std::string>(shortcutName));
+    postParams.objectVal.set("parents", std::vector<JsonValue> {JsonValue(parentId)});
+    postParams.objectVal.set("shortcutDetails", std::move(shortcutDetails));
     const std::string& postBuf = serializeJson(postParams, "" /*lineBreak*/, "" /*indent*/);
 
     std::string response;
@@ -1405,9 +1405,9 @@ std::string /*fileId*/ gdriveCopyFile(const std::string& fileId, const std::stri
         throw SysError(L"Invalid modification time (time_t: " + numberTo<std::wstring>(newModTime) + L')');
 
     JsonValue postParams(JsonValue::Type::object);
-    postParams.objectVal.emplace("name", utfTo<std::string>(newName));
-    postParams.objectVal.emplace("parents", std::vector<JsonValue> {JsonValue(parentIdTo)});
-    postParams.objectVal.emplace("modifiedTime", modTimeRfc);
+    postParams.objectVal.set("name", utfTo<std::string>(newName));
+    postParams.objectVal.set("parents", std::vector<JsonValue> {JsonValue(parentIdTo)});
+    postParams.objectVal.set("modifiedTime", modTimeRfc);
     const std::string& postBuf = serializeJson(postParams, "" /*lineBreak*/, "" /*indent*/);
 
     std::string response;
@@ -1455,8 +1455,8 @@ void gdriveMoveAndRenameItem(const std::string& itemId, const std::string& paren
         throw SysError(L"Invalid modification time (time_t: " + numberTo<std::wstring>(newModTime) + L')');
 
     JsonValue postParams(JsonValue::Type::object);
-    postParams.objectVal.emplace("name", utfTo<std::string>(newName));
-    postParams.objectVal.emplace("modifiedTime", modTimeRfc);
+    postParams.objectVal.set("name", utfTo<std::string>(newName));
+    postParams.objectVal.set("modifiedTime", modTimeRfc);
     const std::string& postBuf = serializeJson(postParams, "" /*lineBreak*/, "" /*indent*/);
 
     std::string response;
@@ -1715,15 +1715,15 @@ std::string /*itemId*/ gdriveUploadFile(const Zstring& fileName, const std::stri
             {"uploadType", "resumable"},
         });
         JsonValue postParams(JsonValue::Type::object);
-        postParams.objectVal.emplace("name", utfTo<std::string>(fileName));
-        postParams.objectVal.emplace("parents", std::vector<JsonValue> {JsonValue(parentId)});
+        postParams.objectVal.set("name", utfTo<std::string>(fileName));
+        postParams.objectVal.set("parents", std::vector<JsonValue> {JsonValue(parentId)});
         if (modTime) //convert to RFC 3339 date-time: e.g. "2018-09-29T08:39:12.053Z"
         {
             const std::string& modTimeRfc = utfTo<std::string>(formatTime(Zstr("%Y-%m-%dT%H:%M:%S.000Z"), getUtcTime(*modTime))); //returns empty string on error
             if (modTimeRfc.empty())
                 throw SysError(L"Invalid modification time (time_t: " + numberTo<std::wstring>(*modTime) + L')');
 
-            postParams.objectVal.emplace("modifiedTime", modTimeRfc);
+            postParams.objectVal.set("modifiedTime", modTimeRfc);
         }
         const std::string& postBuf = serializeJson(postParams, "" /*lineBreak*/, "" /*indent*/);
         //---------------------------------------------------

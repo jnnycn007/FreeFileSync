@@ -97,7 +97,7 @@ AFS::FileCopyResult AFS::copyFileAsStream(const AfsPath& sourcePath, const Strea
 {
     auto streamIn = getInputStream(sourcePath); //throw FileError, ErrorFileLocked
 
-    warn_static("maybe only call if deviating from attrSource!? support file append in progress")
+#warning("maybe only call if deviating from attrSource!? support file append in progress")
 
     StreamAttributes attrSourceNew = {};
     //try to get the most current attributes if possible (input file might have changed after comparison!)

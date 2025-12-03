@@ -94,15 +94,6 @@ public:
 +    }
 
 __________________________________________________________________________________________________________
-/include/wx/features.h
-wxWidgets/GTK2 on some Linux systems incorrectly detects high DPI: https://freefilesync.org/forum/viewtopic.php?t=6114
-=> hack away high-DPI support for GTK2 (= pretend GTK2 has device independent pixels, which it clearly has not!)
-
-+ #if defined(__WXGTK20__)
-+     #define wxHAS_DPI_INDEPENDENT_PIXELS
-+ #endif
-
-__________________________________________________________________________________________________________
 /src/aui/framemanager.cpp:
 Fix incorrect pane height calculations:
 

@@ -2649,8 +2649,6 @@ ConfigDlgGenerated::ConfigDlgGenerated( wxWindow* parent, wxWindowID id, const w
     this->Layout();
     bSizer7->Fit( this );
 
-    this->Centre( wxBOTH );
-
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( ConfigDlgGenerated::onClose ) );
     m_listBoxFolderPair->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( ConfigDlgGenerated::onListBoxKeyEvent ), NULL, this );
@@ -3260,8 +3258,6 @@ CloudSetupDlgGenerated::CloudSetupDlgGenerated( wxWindow* parent, wxWindowID id,
     this->Layout();
     bSizer134->Fit( this );
 
-    this->Centre( wxBOTH );
-
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( CloudSetupDlgGenerated::onClose ) );
     m_toggleBtnGdrive->Connect( wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler( CloudSetupDlgGenerated::onConnectionGdrive ), NULL, this );
@@ -3339,8 +3335,6 @@ AbstractFolderPickerGenerated::AbstractFolderPickerGenerated( wxWindow* parent, 
     this->SetSizer( bSizer134 );
     this->Layout();
     bSizer134->Fit( this );
-
-    this->Centre( wxBOTH );
 
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( AbstractFolderPickerGenerated::onClose ) );
@@ -3574,8 +3568,6 @@ SyncConfirmationDlgGenerated::SyncConfirmationDlgGenerated( wxWindow* parent, wx
     this->SetSizer( bSizer134 );
     this->Layout();
     bSizer134->Fit( this );
-
-    this->Centre( wxBOTH );
 
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( SyncConfirmationDlgGenerated::onClose ) );
@@ -4474,8 +4466,6 @@ BatchDlgGenerated::BatchDlgGenerated( wxWindow* parent, wxWindowID id, const wxS
     this->Layout();
     bSizer54->Fit( this );
 
-    this->Centre( wxBOTH );
-
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( BatchDlgGenerated::onClose ) );
     m_checkBoxRunMinimized->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( BatchDlgGenerated::onToggleRunMinimized ), NULL, this );
@@ -4565,8 +4555,6 @@ DeleteDlgGenerated::DeleteDlgGenerated( wxWindow* parent, wxWindowID id, const w
     this->SetSizer( bSizer24 );
     this->Layout();
     bSizer24->Fit( this );
-
-    this->Centre( wxBOTH );
 
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( DeleteDlgGenerated::onClose ) );
@@ -4693,8 +4681,6 @@ CopyToDlgGenerated::CopyToDlgGenerated( wxWindow* parent, wxWindowID id, const w
     this->Layout();
     bSizer24->Fit( this );
 
-    this->Centre( wxBOTH );
-
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( CopyToDlgGenerated::onClose ) );
     m_buttonOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CopyToDlgGenerated::onOkay ), NULL, this );
@@ -4782,8 +4768,6 @@ RenameDlgGenerated::RenameDlgGenerated( wxWindow* parent, wxWindowID id, const w
     this->SetSizer( bSizer24 );
     this->Layout();
     bSizer24->Fit( this );
-
-    this->Centre( wxBOTH );
 
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( RenameDlgGenerated::onClose ) );
@@ -5412,8 +5396,6 @@ OptionsDlgGenerated::OptionsDlgGenerated( wxWindow* parent, wxWindowID id, const
     this->Layout();
     bSizer95->Fit( this );
 
-    this->Centre( wxBOTH );
-
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( OptionsDlgGenerated::onClose ) );
     m_choiceColorTheme->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( OptionsDlgGenerated::onChangeColorTheme ), NULL, this );
@@ -5492,8 +5474,6 @@ SelectTimespanDlgGenerated::SelectTimespanDlgGenerated( wxWindow* parent, wxWind
     this->SetSizer( bSizer96 );
     this->Layout();
     bSizer96->Fit( this );
-
-    this->Centre( wxBOTH );
 
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( SelectTimespanDlgGenerated::onClose ) );
@@ -5713,8 +5693,6 @@ AboutDlgGenerated::AboutDlgGenerated( wxWindow* parent, wxWindowID id, const wxS
     this->Layout();
     bSizer31->Fit( this );
 
-    this->Centre( wxBOTH );
-
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( AboutDlgGenerated::onClose ) );
     m_buttonDonate1->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AboutDlgGenerated::onDonate ), NULL, this );
@@ -5851,8 +5829,6 @@ CfgHighlightDlgGenerated::CfgHighlightDlgGenerated( wxWindow* parent, wxWindowID
     this->Layout();
     bSizer96->Fit( this );
 
-    this->Centre( wxBOTH );
-
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( CfgHighlightDlgGenerated::onClose ) );
     m_buttonOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CfgHighlightDlgGenerated::onOkay ), NULL, this );
@@ -5948,8 +5924,6 @@ PasswordPromptDlgGenerated::PasswordPromptDlgGenerated( wxWindow* parent, wxWind
     this->SetSizer( bSizer96 );
     this->Layout();
     bSizer96->Fit( this );
-
-    this->Centre( wxBOTH );
 
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( PasswordPromptDlgGenerated::onClose ) );
@@ -6142,8 +6116,6 @@ ActivationDlgGenerated::ActivationDlgGenerated( wxWindow* parent, wxWindowID id,
     this->Layout();
     bSizer54->Fit( this );
 
-    this->Centre( wxBOTH );
-
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( ActivationDlgGenerated::onClose ) );
     m_buttonActivateOnline->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ActivationDlgGenerated::onActivateOnline ), NULL, this );
@@ -6246,8 +6218,6 @@ WarnAccessRightsMissingDlgGenerated::WarnAccessRightsMissingDlgGenerated( wxWind
     this->SetSizer( bSizer330 );
     this->Layout();
     bSizer330->Fit( this );
-
-    this->Centre( wxBOTH );
 
     // Connect Events
     this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( WarnAccessRightsMissingDlgGenerated::onClose ) );

@@ -281,7 +281,7 @@ RandomAccessIterator1 searchFirst(const RandomAccessIterator1 first,       const
 {
     if (needleLast - needleFirst == 1) //don't use expensive std::search unless required!
         return std::find_if(first, last, [needleFirst, isEqual](const auto c) { return isEqual(*needleFirst, c); });
-    //"*needleFirst" could be improved with value rather than pointer access, at least for built-in types like "char"
+    //"*needleFirst" could be improved with value rather than iterator access, at least for built-in types like "char"
 
     return std::search(first, last,
                        needleFirst, needleLast, isEqual);

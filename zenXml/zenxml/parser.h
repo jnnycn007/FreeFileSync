@@ -532,7 +532,7 @@ private:
     {
         while (token().type == Token::TK_NAME)
         {
-            const std::string attribName = token().name;
+            std::string attribName = token().name;
             nextToken(); //throw XmlParsingError
 
             consumeToken(Token::TK_EQUAL); //throw XmlParsingError
@@ -541,7 +541,7 @@ private:
             nextToken(); //throw XmlParsingError
 
             consumeToken(Token::TK_QUOTE); //throw XmlParsingError
-            element.setAttribute(attribName, attribValue);
+            element.setAttribute(std::move(attribName), attribValue);
         }
     }
 

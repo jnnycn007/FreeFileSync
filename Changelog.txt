@@ -1,3 +1,15 @@
+FreeFileSync 14.6 [2025-12-02]
+------------------------------
+Write sync statistics to stdout as JSON for .ffs_batch
+Removed precompiled 32-bit bundle (Linux)
+Avoid redundant window centering before finishing layout
+GTK3-based build (Linux)
+Dark mode support with GTK3 (Linux)
+Stream errors to stderr instead of stdout (Linux)
+Installer supports dark mode (Windows)
+Added "New Window" dock menu item (macOS)
+
+
 FreeFileSync 14.5 [2025-10-03]
 ------------------------------
 Quotation not needed anymore for external application macros

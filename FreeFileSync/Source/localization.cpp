@@ -417,7 +417,7 @@ void fff::setLanguage(wxLanguage lng) //throw FileError
     //------------------------------------------------------------
 
     globalLang = lng;
-
+    
     //add translation for wxWidgets-internal strings:
     std::map<std::string, std::wstring> transMapping =
     {

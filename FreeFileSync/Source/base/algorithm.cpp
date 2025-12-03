@@ -1147,7 +1147,7 @@ template <SelectSide side, class T> inline
 bool matchesTime(const T& obj, time_t timeFrom, time_t timeTo)
 {
     return timeFrom <= obj.template getLastWriteTime<side>() &&
-    /**/               obj.template getLastWriteTime<side>() <= timeTo;
+           /**/               obj.template getLastWriteTime<side>() <= timeTo;
 }
 }
 
@@ -1672,7 +1672,7 @@ void renameItemsOneSide(const std::vector<FileSystemObject*>& selection,
 
         fsObj.setItemName<side>(newName);
 
-        warn_static("TODO: some users want to manually fix renamed folders/files: combine them here, don't require a re-compare!")
+#warning("TODO: some users want to manually fix renamed folders/files: combine them here, don't require a re-compare!")
 
         //update sync direction: don't call redetermineSyncDirection() because user may have manually changed directions
         if (catOld == CompareFileResult::FILE_EQUAL)

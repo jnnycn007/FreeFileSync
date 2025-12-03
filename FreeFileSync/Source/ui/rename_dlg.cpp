@@ -366,7 +366,7 @@ RenameDialog::RenameDialog(wxWindow* parent,
     Show(); //GTK3 size calculation requires visible window: https://github.com/wxWidgets/wxWidgets/issues/16088
     //Hide(); -> avoids old position flash before Center() on GNOME but causes hang on KDE? https://freefilesync.org/forum/viewtopic.php?t=10103#p42404
 #endif
-    Center(); //needs to be re-applied after a dialog size change!
+    Center(); //apply *after* dialog size change!
 
     m_textCtrlNewName->SetFocus(); //[!] required *before* SetSelection() on wxGTK
     //-----------------------------------------------------------

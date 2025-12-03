@@ -1907,16 +1907,16 @@ void MainDialog::openExternalApplication(const Zstring& commandLinePhrase, bool 
                                          const std::vector<FileSystemObject*>& selectionL,
                                          const std::vector<FileSystemObject*>& selectionR)
 {
-        //do not open more than one Explorer instance!
-        if (commandLinePhrase == extCommandFileManager.cmdLine)
-            if (selectionL.size() + selectionR.size() > 1)
-            {
-                if (( leftSide && !selectionL.empty()) ||
-                    (!leftSide &&  selectionR.empty()))
-                    return openExternalApplication(commandLinePhrase, leftSide, {selectionL[0]}, {});
-                else
-                    return openExternalApplication(commandLinePhrase, leftSide, {}, {selectionR[0]});
-            }
+    //do not open more than one Explorer instance!
+    if (commandLinePhrase == extCommandFileManager.cmdLine)
+        if (selectionL.size() + selectionR.size() > 1)
+        {
+            if (( leftSide && !selectionL.empty()) ||
+                (!leftSide &&  selectionR.empty()))
+                return openExternalApplication(commandLinePhrase, leftSide, {selectionL[0]}, {});
+            else
+                return openExternalApplication(commandLinePhrase, leftSide, {}, {selectionR[0]});
+        }
 
     //----------------------------------------------------------------
     if (std::exchange(operationInProgress_, true))

@@ -167,7 +167,7 @@ AboutDlg::AboutDlg(wxWindow* parent) : AboutDlgGenerated(parent)
     Show(); //GTK3 size calculation requires visible window: https://github.com/wxWidgets/wxWidgets/issues/16088
     //Hide(); -> avoids old position flash before Center() on GNOME but causes hang on KDE? https://freefilesync.org/forum/viewtopic.php?t=10103#p42404
 #endif
-    Center(); //needs to be re-applied after a dialog size change!
+    Center(); //apply *after* dialog size change!
 
     m_buttonClose->SetFocus(); //on GTK ESC is only associated with wxID_OK correctly if we set at least *any* focus at all!!!
 }
@@ -417,7 +417,7 @@ CloudSetupDlg::CloudSetupDlg(wxWindow* parent, Zstring& folderPathPhrase, Zstrin
     Show(); //GTK3 size calculation requires visible window: https://github.com/wxWidgets/wxWidgets/issues/16088
     //Hide(); -> avoids old position flash before Center() on GNOME but causes hang on KDE? https://freefilesync.org/forum/viewtopic.php?t=10103#p42404
 #endif
-    Center(); //needs to be re-applied after a dialog size change!
+    Center(); //apply *after* dialog size change!
 
     updateGui(); //*after* SetSizeHints when standard dialog height has been calculated
 
@@ -984,7 +984,7 @@ CopyToDialog::CopyToDialog(wxWindow* parent,
     Show(); //GTK3 size calculation requires visible window: https://github.com/wxWidgets/wxWidgets/issues/16088
     //Hide(); -> avoids old position flash before Center() on GNOME but causes hang on KDE? https://freefilesync.org/forum/viewtopic.php?t=10103#p42404
 #endif
-    Center(); //needs to be re-applied after a dialog size change!
+    Center(); //apply *after* dialog size change!
 
     m_buttonOK->SetFocus();
 }
@@ -1113,7 +1113,7 @@ DeleteDialog::DeleteDialog(wxWindow* parent,
     Show(); //GTK3 size calculation requires visible window: https://github.com/wxWidgets/wxWidgets/issues/16088
     //Hide(); -> avoids old position flash before Center() on GNOME but causes hang on KDE? https://freefilesync.org/forum/viewtopic.php?t=10103#p42404
 #endif
-    Center(); //needs to be re-applied after a dialog size change!
+    Center(); //apply *after* dialog size change!
 
     m_buttonOK->SetFocus();
 }
@@ -1266,7 +1266,7 @@ SyncConfirmationDlg::SyncConfirmationDlg(wxWindow* parent,
     Show(); //GTK3 size calculation requires visible window: https://github.com/wxWidgets/wxWidgets/issues/16088
     //Hide(); -> avoids old position flash before Center() on GNOME but causes hang on KDE? https://freefilesync.org/forum/viewtopic.php?t=10103#p42404
 #endif
-    Center(); //needs to be re-applied after a dialog size change!
+    Center(); //apply *after* dialog size change!
 
     m_buttonOK->SetFocus();
 }
@@ -1639,7 +1639,7 @@ OptionsDlg::OptionsDlg(wxWindow* parent, GlobalConfig& globalCfg) :
     Show(); //GTK3 size calculation requires visible window: https://github.com/wxWidgets/wxWidgets/issues/16088
     //Hide(); -> avoids old position flash before Center() on GNOME but causes hang on KDE? https://freefilesync.org/forum/viewtopic.php?t=10103#p42404
 #endif
-    Center(); //needs to be re-applied after a dialog size change!
+    Center(); //apply *after* dialog size change!
 
     //restore actual value:
     setExtApp(globalCfg.externalApps);
@@ -2046,7 +2046,7 @@ SelectTimespanDlg::SelectTimespanDlg(wxWindow* parent, time_t& timeFrom, time_t&
     Show(); //GTK3 size calculation requires visible window: https://github.com/wxWidgets/wxWidgets/issues/16088
     //Hide(); -> avoids old position flash before Center() on GNOME but causes hang on KDE? https://freefilesync.org/forum/viewtopic.php?t=10103#p42404
 #endif
-    Center(); //needs to be re-applied after a dialog size change!
+    Center(); //apply *after* dialog size change!
 
     m_buttonOK->SetFocus();
 }
@@ -2157,7 +2157,7 @@ PasswordPromptDlg::PasswordPromptDlg(wxWindow* parent, const std::wstring& msg, 
     Show(); //GTK3 size calculation requires visible window: https://github.com/wxWidgets/wxWidgets/issues/16088
     //Hide(); -> avoids old position flash before Center() on GNOME but causes hang on KDE? https://freefilesync.org/forum/viewtopic.php?t=10103#p42404
 #endif
-    Center(); //needs to be re-applied after a dialog size change!
+    Center(); //apply *after* dialog size change!
 
     updateGui(); //*after* SetSizeHints when standard dialog height has been calculated
 
@@ -2243,7 +2243,7 @@ CfgHighlightDlg::CfgHighlightDlg(wxWindow* parent, int& cfgHistSyncOverdueDays) 
     Show(); //GTK3 size calculation requires visible window: https://github.com/wxWidgets/wxWidgets/issues/16088
     //Hide(); -> avoids old position flash before Center() on GNOME but causes hang on KDE? https://freefilesync.org/forum/viewtopic.php?t=10103#p42404
 #endif
-    Center(); //needs to be re-applied after a dialog size change!
+    Center(); //apply *after* dialog size change!
 
     m_spinCtrlOverdueDays->SetFocus();
 }
@@ -2314,7 +2314,7 @@ ActivationDlg::ActivationDlg(wxWindow* parent,
     Show(); //GTK3 size calculation requires visible window: https://github.com/wxWidgets/wxWidgets/issues/16088
     //Hide(); -> avoids old position flash before Center() on GNOME but causes hang on KDE? https://freefilesync.org/forum/viewtopic.php?t=10103#p42404
 #endif
-    Center(); //needs to be re-applied after a dialog size change!
+    Center(); //apply *after* dialog size change!
 
     m_buttonActivateOnline->SetFocus();
 }
@@ -2422,7 +2422,7 @@ DownloadProgressWindow::Impl::Impl(wxWindow* parent, int64_t fileSizeTotal) :
     Show(); //GTK3 size calculation requires visible window: https://github.com/wxWidgets/wxWidgets/issues/16088
     //Hide(); -> avoids old position flash before Center() on GNOME but causes hang on KDE? https://freefilesync.org/forum/viewtopic.php?t=10103#p42404
 #endif
-    Center(); //needs to be re-applied after a dialog size change!
+    Center(); //apply *after* dialog size change!
 
     Show();
 

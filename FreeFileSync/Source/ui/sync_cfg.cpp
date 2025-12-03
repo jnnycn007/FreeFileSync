@@ -722,7 +722,7 @@ globalLogFolderPhrase_(globalLogFolderPhrase)
     Show(); //GTK3 size calculation requires visible window: https://github.com/wxWidgets/wxWidgets/issues/16088
     //Hide(); -> avoids old position flash before Center() on GNOME but causes hang on KDE? https://freefilesync.org/forum/viewtopic.php?t=10103#p42404
 #endif
-    Center(); //needs to be re-applied after a dialog size change!
+    Center(); //apply *after* dialog size change!
 
     //keep stable sizer height: change-based directions are taller than difference-based ones => init with SyncVariant::twoWay
     bSizerSyncDirHolder   ->SetMinSize(-1, bSizerSyncDirsChanges ->GetSize().y);
@@ -1168,7 +1168,7 @@ void updateDiffDirButtons(const DirectionByDiff& diffDirs,
                           wxBitmapButton& buttonDifferent)
 {
     updateDirButton(buttonLeftOnly,   diffDirs.leftOnly,   "so_delete_left", "so_none", "so_create_right", SO_DELETE_LEFT,     SO_DO_NOTHING, SO_CREATE_RIGHT);
-    updateDirButton(buttonRightOnly,  diffDirs.rightOnly,  "so_create_left", "so_none", "so_delete_right", SO_CREATE_LEFT, SO_DO_NOTHING, SO_DELETE_RIGHT);
+    updateDirButton(buttonRightOnly,  diffDirs.rightOnly,  "so_create_left", "so_none", "so_delete_right", SO_CREATE_LEFT,     SO_DO_NOTHING, SO_DELETE_RIGHT);
     updateDirButton(buttonLeftNewer,  diffDirs.leftNewer,  "so_update_left", "so_none", "so_update_right", SO_OVERWRITE_LEFT,  SO_DO_NOTHING, SO_OVERWRITE_RIGHT);
     updateDirButton(buttonRightNewer, diffDirs.rightNewer, "so_update_left", "so_none", "so_update_right", SO_OVERWRITE_LEFT,  SO_DO_NOTHING, SO_OVERWRITE_RIGHT);
     //simulate category "different" as leftNewer/rightNewer combined:
@@ -1186,9 +1186,9 @@ void updateChangeDirButtons(const DirectionByChange& changeDirs,
 {
     updateDirButton(buttonLeftCreate, changeDirs.left.create,  "so_delete_left", "so_none", "so_create_right", SO_DELETE_LEFT,     SO_DO_NOTHING, SO_CREATE_RIGHT);
     updateDirButton(buttonLeftUpdate, changeDirs.left.update,  "so_update_left", "so_none", "so_update_right", SO_OVERWRITE_LEFT,  SO_DO_NOTHING, SO_OVERWRITE_RIGHT);
-    updateDirButton(buttonLeftDelete, changeDirs.left.delete_, "so_create_left", "so_none", "so_delete_right", SO_CREATE_LEFT, SO_DO_NOTHING, SO_DELETE_RIGHT);
+    updateDirButton(buttonLeftDelete, changeDirs.left.delete_, "so_create_left", "so_none", "so_delete_right", SO_CREATE_LEFT,     SO_DO_NOTHING, SO_DELETE_RIGHT);
 
-    updateDirButton(buttonRightCreate, changeDirs.right.create,  "so_create_left", "so_none", "so_delete_right", SO_CREATE_LEFT, SO_DO_NOTHING, SO_DELETE_RIGHT);
+    updateDirButton(buttonRightCreate, changeDirs.right.create,  "so_create_left", "so_none", "so_delete_right", SO_CREATE_LEFT,     SO_DO_NOTHING, SO_DELETE_RIGHT);
     updateDirButton(buttonRightUpdate, changeDirs.right.update,  "so_update_left", "so_none", "so_update_right", SO_OVERWRITE_LEFT,  SO_DO_NOTHING, SO_OVERWRITE_RIGHT);
     updateDirButton(buttonRightDelete, changeDirs.right.delete_, "so_delete_left", "so_none", "so_create_right", SO_DELETE_LEFT,     SO_DO_NOTHING, SO_CREATE_RIGHT);
 }

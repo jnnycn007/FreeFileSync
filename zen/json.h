@@ -1,4 +1,4 @@
-﻿// *****************************************************************************
+// *****************************************************************************
 // * This file is part of the FreeFileSync project. It is distributed under    *
 // * GNU General Public License: https://www.gnu.org/licenses/gpl-3.0          *
 // * Copyright (C) Zenju (zenju AT freefilesync DOT org) - All Rights Reserved *
@@ -7,6 +7,7 @@
 #ifndef JSON_H_0187348321748321758934215734
 #define JSON_H_0187348321748321758934215734
 
+#include <list>
 #include <zen/string_tools.h>
 
 
@@ -14,6 +15,45 @@ namespace zen
 {
 //Spec: https://tools.ietf.org/html/rfc8259
 //Test: http://seriot.ch/parsing_json.php
+struct JsonValue;
+
+class JsonObject
+{
+public:
+    using Item = std::list<std::pair<std::string /*¹*/, JsonValue>>; //must NOT invalidate references used by "valuesByName_"!
+    //¹) careful: should be const, but fails to compile in debug => do not allow write access by the API:
+
+    Range<Item::const_iterator> getItems() const { return {values_.begin(), values_.end()}; }
+
+    bool empty() const { return values_.empty(); }
+
+    const JsonValue* get(std::string_view name) const;
+
+    template <class T>
+    void set(std::string&& name, T&& value);
+
+    //-------------------------------------------------------------
+#warning("review default operators")
+    JsonObject() = default;
+
+    JsonObject(const JsonObject& other) : values_(other.values_) { initLookup(); }
+
+    JsonObject& operator=(const JsonObject& other) { JsonObject(other).swap(*this); return *this; }
+
+    JsonObject           (JsonObject&& tmp) noexcept { swap(tmp); }
+    JsonObject& operator=(JsonObject&& tmp) noexcept { swap(tmp); return *this; }
+
+private:
+    void swap(JsonObject& other) noexcept { values_.swap(other.values_); valuesByName_.swap(other.valuesByName_); }
+
+    void initLookup();
+
+    //"[...] most implementations of JSON libraries do not accept duplicate keys [...]" => fine!
+    Item                                                 values_;       //in order of insertion
+    std::unordered_map<std::string_view, Item::iterator> valuesByName_; //alternate view for lookup
+};
+
+
 struct JsonValue
 {
     enum class Type
@@ -40,10 +80,9 @@ struct JsonValue
 
 
     Type type = Type::null;
-    std::string                      primVal; //for primitive types
-    std::vector<JsonValue>           arrayVal;
-    std::map<std::string, JsonValue> objectVal; //"[...] most implementations of JSON libraries do not accept duplicate keys [...]" => fine!
-    //alternative: std::unordered_map => but let's keep std::map, so that objectVal is sorted for our unit tests
+    std::string             primVal; //for primitive types
+    std::vector<JsonValue>  arrayVal;
+    JsonObject              objectVal;
 };
 
 
@@ -62,18 +101,13 @@ JsonValue parseJson(const std::string& stream); //throw JsonParsingError
 
 
 
+//---------------------- implementation ----------------------
+
 //helper functions for JsonValue access:
 inline
 const JsonValue* getChildFromJsonObject(const JsonValue& jvalue, const std::string& name)
 {
-    if (jvalue.type != JsonValue::Type::object)
-        return nullptr;
-
-    auto it = jvalue.objectVal.find(name);
-    if (it == jvalue.objectVal.end())
-        return nullptr;
-
-    return &it->second;
+    return jvalue.type != JsonValue::Type::object ? nullptr : jvalue.objectVal.get(name);
 }
 
 
@@ -88,10 +122,38 @@ std::optional<std::string> getPrimitiveFromJsonObject(const JsonValue& jvalue, c
 }
 
 
+inline
+void JsonObject::initLookup()
+{
+    assert(valuesByName_.empty());
+    for (auto it = values_.begin(); it != values_.end(); ++it)
+        valuesByName_.emplace(it->first, it);
+}
 
 
+inline
+const JsonValue* JsonObject::get(std::string_view name) const
+{
+    auto it = valuesByName_.find(name);
+    return it == valuesByName_.end() ? nullptr : &(it->second->second);
+}
 
-//---------------------- implementation ----------------------
+
+template <class T> inline
+void JsonObject::set(std::string&& name, T&& value)
+{
+    auto it = valuesByName_.find(name);
+    if (it != valuesByName_.end())
+        it->second->second = JsonValue(std::forward<T>(value));
+    else
+    {
+        //values_.emplace_back(std::move(name), std::forward<T>(value)); -> not yet on macOS/clang
+        values_.push_back({std::move(name), JsonValue(std::forward<T>(value))});
+        valuesByName_.emplace(values_.back().first, --values_.end());
+    }
+}
+
+
 namespace json_impl
 {
 namespace
@@ -230,11 +292,11 @@ void serialize(const JsonValue& jval, std::string& stream,
             stream += '{';
             if (!jval.objectVal.empty())
             {
-                for (auto it = jval.objectVal.begin(); it != jval.objectVal.end(); ++it)
-                {
-                    const auto& [childName, childValue] = *it;
+                bool first = true;
 
-                    if (it != jval.objectVal.begin())
+                for (const auto& [childName, childValue] : jval.objectVal.getItems())
+                {
+                    if (!std::exchange(first, false))
                         stream += ',';
 
                     stream += lineBreak;
@@ -464,7 +526,7 @@ private:
                     consumeToken(TokenType::colon); //throw JsonParsingError
 
                     JsonValue value = parseValue(); //throw JsonParsingError
-                    jval.objectVal.emplace(std::move(name), std::move(value));
+                    jval.objectVal.set(std::move(name), std::move(value));
 
                     if (token().type != TokenType::comma)
                         break;

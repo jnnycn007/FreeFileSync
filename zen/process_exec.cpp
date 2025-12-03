@@ -19,18 +19,29 @@ using namespace zen;
 Zstring zen::escapeCommandArg(const Zstring& arg)
 {
     Zstring output;
+    bool addQuotes = false;
+
     for (const char c : arg)
+    {
         switch (c)
         {
-            //case  ' ': output += "\\ "; break; -> maybe nicer to use quotes instead?
-            case  '"': output += "\\\""; break; //Windows: not needed; " cannot be used as file name
-            case '\\': output += "\\\\"; break; //Windows: path separator! => don't escape
-            case '`':  output += "\\`";  break; //yes, used in some paths => Windows: no escaping required
-            default:   output += c; break;
-        }
-    if (contains(arg, ' '))
-        output = '"' + output + '"'; //caveat: single-quotes not working on macOS if string contains escaped chars! no such issue on Linux
+            case '"':  //
+            case '\\': //must be escaped - no matter if string is double-quoted or not
+            case '`':  //
+            case '$':  //
+                output += '\\';
+                break;
 
+            default:
+                if (contains(" '&*()|;<>#~", c)) //must *either* be escaped or protected by double-quotes, never both!
+                    addQuotes = true;
+                break;
+        }
+        output += c;
+    }
+
+    if (addQuotes)
+        return '"' + output + '"'; //caveat: single-quotes not working on macOS if string contains escaped chars! no such issue on Linux
     return output;
 }
 
